@@ -59,8 +59,8 @@ export default function LoginPage() {
       }
 
       setStep('email-sent')
-    } catch {
-      setError('Une erreur est survenue. Veuillez réessayer.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
