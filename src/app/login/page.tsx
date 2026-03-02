@@ -31,7 +31,7 @@ function LoginContent() {
   useEffect(() => {
     const errorParam = searchParams.get('error')
     if (errorParam === 'auth_callback_error') {
-      setError('Le lien de connexion a expir\u00e9 ou est invalide. Veuillez r\u00e9essayer.')
+      setError('Le lien de connexion a expiré ou est invalide. Veuillez réessayer.')
     }
   }, [searchParams])
 
@@ -80,7 +80,7 @@ function LoginContent() {
 
       setStep('otp')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez r\u00e9essayer.')
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -122,19 +122,19 @@ function LoginContent() {
         router.push('/dashboard')
       }, 1500)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez r\u00e9essayer.')
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
   }
 
   const otpMessage = authMode === 'email'
-    ? `Un code de v\u00e9rification a \u00e9t\u00e9 envoy\u00e9 \u00e0 ${email}`
-    : `Un code de v\u00e9rification a \u00e9t\u00e9 envoy\u00e9 par SMS`
+    ? `Un code de vérification a été envoyé à ${email}`
+    : `Un code de vérification a été envoyé par SMS`
 
   const otpHint = authMode === 'email'
-    ? 'Entrez le code \u00e0 6 chiffres re\u00e7u par email (v\u00e9rifiez vos spams)'
-    : 'Entrez le code \u00e0 6 chiffres re\u00e7u par SMS'
+    ? 'Entrez le code à 6 chiffres reçu par email (vérifiez vos spams)'
+    : 'Entrez le code à 6 chiffres reçu par SMS'
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -165,7 +165,7 @@ function LoginContent() {
           {step === 'input'
             ? 'Recevez un code de connexion par email ou SMS'
             : step === 'otp'
-            ? 'Saisissez le code re\u00e7u'
+            ? 'Saisissez le code reçu'
             : 'Bienvenue !'}
         </p>
 
@@ -195,7 +195,7 @@ function LoginContent() {
                 className={`flex-1 flex items-center justify-center gap-2 h-12 text-sm font-medium transition-colors ${authMode === 'phone' ? 'bg-[#1B4965] text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
               >
                 <Phone className="h-4 w-4" />
-                Par t\u00e9l\u00e9phone
+                Par téléphone
               </button>
             </div>
 
@@ -231,7 +231,7 @@ function LoginContent() {
                     htmlFor="phone"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Num\u00e9ro de t\u00e9l\u00e9phone
+                    Numéro de téléphone
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
@@ -283,7 +283,7 @@ function LoginContent() {
                   htmlFor="otp"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Code de v\u00e9rification
+                  Code de vérification
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
@@ -331,8 +331,8 @@ function LoginContent() {
                 className="w-full text-center text-sm text-gray-500 hover:text-gray-700 transition-colors"
               >
                 {authMode === 'email'
-                  ? 'Renvoyer un code ou changer d\u2019adresse'
-                  : 'Renvoyer un code ou changer de num\u00e9ro'}
+                  ? "Renvoyer un code ou changer d'adresse"
+                  : 'Renvoyer un code ou changer de numéro'}
               </button>
             </form>
           </div>
@@ -357,7 +357,7 @@ function LoginContent() {
               </svg>
             </div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">
-              Connexion r\u00e9ussie !
+              Connexion réussie !
             </h2>
             <p className="text-gray-500 text-sm">
               Redirection vers votre espace...
