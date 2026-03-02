@@ -3,15 +3,18 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Wine, Users, ArrowLeft, Loader2, Phone, KeyRound } from 'lucide-react'
+import { Wine, Users, ArrowLeft, Loader2, Phone, KeyRound, Mail } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
-type Step = 'phone' | 'otp' | 'success'
+type Step = 'phone' | 'otp' | 'success' | 'email' | 'email-sent'
+type AuthMode = 'phone' | 'email'
 
 export default function LoginPage() {
   const router = useRouter()
   const [step, setStep] = useState<Step>('phone')
+  const [authMode, setAuthMode] = useState<AuthMode>('phone')
   const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -34,6 +37,33 @@ export default function LoginPage() {
     }
     // Default: assume French number
     return '+33' + cleaned
+  }
+
+  const handleSendEmailLink = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+
+    try {
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+
+      if (signInError) {
+        setError(signInError.message)
+        return
+      }
+
+      setStep('email-sent')
+    } catch {
+      setError('Une erreur est survenue. Veuillez réessayer.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -130,6 +160,28 @@ export default function LoginPage() {
           </div>
         )}
 
+        {/* Mode Toggle */}
+        {(step === 'phone' || step === 'email') && (
+          <div className="flex rounded-xl border border-gray-200 overflow-hidden mb-6">
+            <button
+              type="button"
+              onClick={() => { setAuthMode('phone'); setStep('phone'); setError(null) }}
+              className={`flex-1 flex items-center justify-center gap-2 h-12 text-sm font-medium transition-colors ${authMode === 'phone' ? 'bg-[#1B4965] text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+            >
+              <Phone className="h-4 w-4" />
+              Par téléphone
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAuthMode('email'); setStep('email'); setError(null) }}
+              className={`flex-1 flex items-center justify-center gap-2 h-12 text-sm font-medium transition-colors ${authMode === 'email' ? 'bg-[#1B4965] text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+            >
+              <Mail className="h-4 w-4" />
+              Par email
+            </button>
+          </div>
+        )}
+
         {/* Step: Phone Input */}
         {step === 'phone' && (
           <form onSubmit={handleSendOtp} className="space-y-5">
@@ -138,7 +190,7 @@ export default function LoginPage() {
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Num&eacute;ro de t&eacute;l&eacute;phone
+                Numéro de téléphone
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
@@ -153,7 +205,7 @@ export default function LoginPage() {
                   value={phone}
                   onChange={(e) => setPhone(formatPhoneForDisplay(e.target.value))}
                   required
-                  className="w-full h-14 pl-12 pr-4 rounded-xl border border-gray-300 bg-white text-base text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
+                  className="w-full h-14 pl-12 pr-4 rounded-xl border border-gray-300 bg-white text-base text-gray-900 placeholder-gray-400 focus:border-[#1B4965] focus:ring-2 focus:ring-[#1B4965]/20 transition-colors"
                 />
               </div>
               <p className="mt-2 text-xs text-gray-400">
@@ -164,7 +216,49 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !phone}
-              className="flex items-center justify-center w-full h-14 rounded-xl bg-primary text-white text-base font-semibold shadow-lg shadow-primary/20 hover:bg-primary-light active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+              className="flex items-center justify-center w-full h-14 rounded-xl bg-[#1B4965] text-white text-base font-semibold shadow-lg shadow-[#1B4965]/20 hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+            >
+              {loading ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                'Recevoir mon code par SMS'
+              )}
+            </button>
+          </form>
+        )}
+
+        {/* Step: Email Input */}
+        {step === 'email' && (
+          <form onSubmit={handleSendEmailLink} className="space-y-5">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Adresse email
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                  <Mail className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="votre@email.fr"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full h-14 pl-12 pr-4 rounded-xl border border-gray-300 bg-white text-base text-gray-900 placeholder-gray-400 focus:border-[#1B4965] focus:ring-2 focus:ring-[#1B4965]/20 transition-colors"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || !email}
+              className="flex items-center justify-center w-full h-14 rounded-xl bg-[#1B4965] text-white text-base font-semibold shadow-lg shadow-[#1B4965]/20 hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
             >
               {loading ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -173,6 +267,32 @@ export default function LoginPage() {
               )}
             </button>
           </form>
+        )}
+
+        {/* Step: Email Sent */}
+        {step === 'email-sent' && (
+          <div className="text-center py-4">
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#2D6A4F]/10 mx-auto mb-4">
+              <Mail className="h-8 w-8 text-[#2D6A4F]" />
+            </div>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">
+              Email envoyé !
+            </h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Un lien de connexion a été envoyé à <strong>{email}</strong>.
+              Ouvrez votre boîte mail et cliquez sur le lien pour vous connecter.
+            </p>
+            <p className="text-xs text-gray-400 mb-4">
+              Pensez à vérifier vos spams si vous ne trouvez pas l&apos;email.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setStep('email'); setError(null) }}
+              className="text-sm text-[#1B4965] hover:underline"
+            >
+              Renvoyer un email ou changer d&apos;adresse
+            </button>
+          </div>
         )}
 
         {/* Step: OTP Verification */}

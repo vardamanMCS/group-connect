@@ -1,0 +1,1 @@
+{"github":{"enabled":true,"silent":true},"framework":"nextjs","buildCommand":"npm run build","outputDirectory":".next"}
