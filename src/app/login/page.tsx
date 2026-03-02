@@ -51,6 +51,22 @@ function LoginContent() {
     return '+33' + cleaned
   }
 
+  const translateError = (msg: string): string => {
+    const translations: Record<string, string> = {
+      'email rate limit exceeded': 'Trop de tentatives. Veuillez patienter 1 minute avant de réessayer.',
+      'rate limit exceeded': 'Trop de tentatives. Veuillez patienter avant de réessayer.',
+      'Invalid login credentials': 'Identifiants incorrects.',
+      'Token has expired or is invalid': 'Le code a expiré ou est invalide. Demandez un nouveau code.',
+      'Email not confirmed': 'Email non confirmé.',
+      'Phone not confirmed': 'Téléphone non confirmé.',
+      'User not found': 'Aucun compte trouvé avec ces identifiants.',
+    }
+    for (const [key, value] of Object.entries(translations)) {
+      if (msg.toLowerCase().includes(key.toLowerCase())) return value
+    }
+    return msg
+  }
+
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -64,7 +80,7 @@ function LoginContent() {
           email,
         })
         if (signInError) {
-          setError(signInError.message)
+          setError(translateError(signInError.message))
           return
         }
       } else {
@@ -73,14 +89,14 @@ function LoginContent() {
           phone: fullPhone,
         })
         if (signInError) {
-          setError(signInError.message)
+          setError(translateError(signInError.message))
           return
         }
       }
 
       setStep('otp')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez réessayer.')
+      setError(err instanceof Error ? translateError(err.message) : 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -113,7 +129,7 @@ function LoginContent() {
       }
 
       if (verifyError) {
-        setError(verifyError.message)
+        setError(translateError(verifyError.message))
         return
       }
 
