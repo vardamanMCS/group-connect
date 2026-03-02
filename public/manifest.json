@@ -1,0 +1,22 @@
+{
+  "name": "Group Connect",
+  "short_name": "GroupConnect",
+  "description": "Application commissionnaire Maison Colin-Seguin",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#F8F6F0",
+  "theme_color": "#1B4965",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "scope": "/",
+  "prefer_related_applications": false
+}

@@ -1,65 +1,143 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { Wine, Users, ContactRound, Send, BarChart3, ChevronDown } from 'lucide-react'
+
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="border border-gray-200 rounded-xl bg-white">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between px-5 py-4 text-left text-base font-medium text-gray-900"
+        aria-expanded={open}
+      >
+        <span>{question}</span>
+        <ChevronDown
+          className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
+            open ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+      {open && (
+        <div className="px-5 pb-4 text-sm leading-relaxed text-gray-600">
+          {answer}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1 w-full max-w-lg mx-auto px-5 py-8">
+        {/* Hero Section */}
+        <section className="text-center pt-8 pb-10">
+          {/* Logo */}
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary">
+              <Wine className="h-7 w-7 text-white" />
+            </div>
+            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-wine">
+              <Users className="h-7 w-7 text-white" />
+            </div>
+          </div>
+
+          <h1 className="text-3xl font-bold text-primary tracking-tight">
+            Group Connect
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-1 text-base text-wine font-medium">
+            Application regroupeur
+          </p>
+
+          <p className="mt-5 text-gray-600 text-base leading-relaxed max-w-sm mx-auto">
+            Simplifiez votre travail de commissionnaire. Animez vos campagnes de vente,
+            suivez vos contacts et g&eacute;rez vos commissions en toute simplicit&eacute;.
+          </p>
+
+          {/* CTA Button */}
+          <Link
+            href="/login"
+            className="mt-8 inline-flex items-center justify-center w-full max-w-xs h-14 rounded-xl bg-primary text-white text-lg font-semibold shadow-lg shadow-primary/20 hover:bg-primary-light active:scale-[0.98] transition-all duration-150"
+          >
+            Acc&eacute;der &agrave; mon espace
+          </Link>
+        </section>
+
+        {/* Feature Cards */}
+        <section className="pb-10">
+          <div className="space-y-3">
+            <div className="flex items-start gap-4 rounded-xl bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-primary/10 shrink-0">
+                <ContactRound className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">G&eacute;rez vos contacts</h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  Retrouvez facilement tous vos clients et leurs informations en un seul endroit.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-wine/10 shrink-0">
+                <Send className="h-5 w-5 text-wine" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Envoyez vos campagnes</h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  Cr&eacute;ez et envoyez vos offres en quelques clics directement depuis votre t&eacute;l&eacute;phone.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-green/10 shrink-0">
+                <BarChart3 className="h-5 w-5 text-green" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Suivez vos commissions</h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  Consultez vos r&eacute;sultats et vos commissions en temps r&eacute;el.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="pb-10">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            Questions fr&eacute;quentes
+          </h2>
+          <div className="space-y-3">
+            <FAQItem
+              question="Qu'est-ce que Group Connect ?"
+              answer="Group Connect est l'application officielle de la Maison Colin-Seguin pour ses commissionnaires. Elle vous permet de g&eacute;rer vos contacts clients, d'envoyer des campagnes de vente group&eacute;e et de suivre vos commissions, le tout depuis votre t&eacute;l&eacute;phone."
+            />
+            <FAQItem
+              question="Comment &ccedil;a marche ?"
+              answer="C'est tr&egrave;s simple : connectez-vous avec votre num&eacute;ro de t&eacute;l&eacute;phone, puis acc&eacute;dez &agrave; votre espace. Vous pourrez g&eacute;rer vos contacts, envoyer des campagnes et consulter vos commissions en quelques clics."
+            />
+            <FAQItem
+              question="Est-ce gratuit ?"
+              answer="Oui, Group Connect est enti&egrave;rement gratuit pour tous les commissionnaires de la Maison Colin-Seguin. L'application est mise &agrave; votre disposition pour faciliter votre travail au quotidien."
+            />
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full max-w-lg mx-auto px-5 pb-8 pt-4">
+        <div className="border-t border-gray-200 pt-6 text-center">
+          <p className="text-sm text-gray-400">
+            &copy; {new Date().getFullYear()} Maison Colin-Seguin. Tous droits r&eacute;serv&eacute;s.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </footer>
     </div>
-  );
+  )
 }
