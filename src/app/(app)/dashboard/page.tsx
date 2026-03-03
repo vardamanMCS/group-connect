@@ -153,11 +153,11 @@ export default async function DashboardPage() {
     .eq('status', 'pending');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* ------------------------------------------------------------------ */}
       {/* Welcome                                                            */}
       {/* ------------------------------------------------------------------ */}
-      <h1 className="text-2xl font-bold text-gray-900">
+      <h1 className="text-xl font-bold text-gray-900">
         Bonjour, {firstName} !
       </h1>
 
@@ -175,12 +175,12 @@ export default async function DashboardPage() {
       {/* Active campaigns                                                   */}
       {/* ------------------------------------------------------------------ */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">
+        <h2 className="text-base font-semibold text-gray-900 mb-2">
           Vos campagnes actives
         </h2>
 
         {activeCampaigns.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {activeCampaigns.map((campaign) => {
               const stats = campaignStatsMap[campaign.id];
               const offerColor = campaign.offers?.color ?? '#1B4965';
@@ -189,20 +189,20 @@ export default async function DashboardPage() {
               return (
                 <div
                   key={campaign.id}
-                  className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4"
+                  className="bg-white rounded-2xl shadow-sm border border-gray-100 p-3"
                 >
                   {/* Campaign header */}
-                  <div className="flex items-start gap-3 mb-3">
+                  <div className="flex items-start gap-3 mb-2">
                     <div
                       className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0"
                       style={{ backgroundColor: offerColor }}
                     />
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-gray-900 truncate">
+                      <h3 className="font-semibold text-sm text-gray-900 truncate">
                         {campaign.name}
                       </h3>
                       {offerName && (
-                        <p className="text-sm text-gray-500 truncate">
+                        <p className="text-xs text-gray-500 truncate">
                           {offerName}
                         </p>
                       )}
@@ -217,17 +217,17 @@ export default async function DashboardPage() {
                   </div>
 
                   {/* Quick stats */}
-                  <div className="flex items-center gap-4 mb-3 text-sm text-gray-500">
+                  <div className="flex items-center gap-4 mb-2 text-xs text-gray-500">
                     <span className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
+                      <Users className="w-3.5 h-3.5" />
                       {stats.contactCount}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Send className="w-4 h-4" />
+                      <Send className="w-3.5 h-3.5" />
                       {stats.messagesSent}
                     </span>
                     <span className="flex items-center gap-1">
-                      <ShoppingCart className="w-4 h-4" />
+                      <ShoppingCart className="w-3.5 h-3.5" />
                       {stats.ordersCount}
                     </span>
                   </div>
@@ -237,7 +237,7 @@ export default async function DashboardPage() {
                     href={`/campaigns/${campaign.id}`}
                     className="
                       flex items-center justify-center gap-2
-                      w-full h-10 rounded-xl
+                      w-full h-9 rounded-xl
                       bg-[#1B4965] text-white text-sm font-semibold
                       hover:bg-[#153a52] active:bg-[#0f2d40]
                       transition-colors duration-150
@@ -251,24 +251,24 @@ export default async function DashboardPage() {
             })}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
-            <div className="w-12 h-12 bg-[#1B4965]/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Megaphone className="w-6 h-6 text-[#1B4965]" />
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center">
+            <div className="w-10 h-10 bg-[#1B4965]/10 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Megaphone className="w-5 h-5 text-[#1B4965]" />
             </div>
-            <p className="text-gray-600 mb-4">
+            <p className="text-sm text-gray-600 mb-3">
               Vous n&apos;avez pas encore de campagne active.
             </p>
             <Link
               href="/campaigns"
               className="
                 inline-flex items-center justify-center gap-2
-                h-10 px-5 rounded-xl
+                h-9 px-5 rounded-xl
                 bg-[#1B4965] text-white text-sm font-semibold
                 hover:bg-[#153a52] active:bg-[#0f2d40]
                 transition-colors duration-150
               "
             >
-              D&eacute;couvrir les campagnes
+              Découvrir les campagnes
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -279,7 +279,7 @@ export default async function DashboardPage() {
       {/* Quick actions                                                      */}
       {/* ------------------------------------------------------------------ */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">
+        <h2 className="text-base font-semibold text-gray-900 mb-2">
           Actions rapides
         </h2>
 
@@ -289,18 +289,18 @@ export default async function DashboardPage() {
             href="/reminders"
             className="
               bg-white rounded-2xl shadow-sm border border-gray-100
-              p-4 flex flex-col items-start
+              p-3 flex flex-col items-start
               hover:shadow-md active:scale-[0.98]
               transition-all duration-150
             "
           >
-            <div className="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center mb-3">
-              <Bell className="w-5 h-5 text-amber-600" />
+            <div className="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center mb-2">
+              <Bell className="w-4 h-4 text-amber-600" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900">
               {remindersCount ?? 0}
             </span>
-            <span className="text-sm text-gray-500 mt-0.5">
+            <span className="text-xs text-gray-500 mt-0.5">
               {(remindersCount ?? 0) <= 1
                 ? 'rappel \u00e0 envoyer'
                 : 'rappels \u00e0 envoyer'}
@@ -312,18 +312,18 @@ export default async function DashboardPage() {
             href="/results"
             className="
               bg-white rounded-2xl shadow-sm border border-gray-100
-              p-4 flex flex-col items-start
+              p-3 flex flex-col items-start
               hover:shadow-md active:scale-[0.98]
               transition-all duration-150
             "
           >
-            <div className="w-10 h-10 bg-[#1B4965]/10 rounded-full flex items-center justify-center mb-3">
-              <ClipboardList className="w-5 h-5 text-[#1B4965]" />
+            <div className="w-8 h-8 bg-[#1B4965]/10 rounded-full flex items-center justify-center mb-2">
+              <ClipboardList className="w-4 h-4 text-[#1B4965]" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900">
               {pendingOrdersCount ?? 0}
             </span>
-            <span className="text-sm text-gray-500 mt-0.5">
+            <span className="text-xs text-gray-500 mt-0.5">
               {(pendingOrdersCount ?? 0) <= 1
                 ? 'participation en attente'
                 : 'participations en attente'}

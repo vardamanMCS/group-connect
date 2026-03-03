@@ -50,7 +50,7 @@ export default async function AppLayout({
         nextTierAmount={nextTierAmount}
       />
 
-      <main className="max-w-lg mx-auto px-4 pt-4 pb-24">
+      <main className="max-w-lg mx-auto px-4 pt-3 pb-24">
         {children}
       </main>
 
