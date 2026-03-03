@@ -149,8 +149,8 @@ function LoginContent() {
     : `Un code de vérification a été envoyé par SMS`
 
   const otpHint = authMode === 'email'
-    ? 'Entrez le code à 6 chiffres reçu par email (vérifiez vos spams)'
-    : 'Entrez le code à 6 chiffres reçu par SMS'
+    ? 'Entrez le code reçu par email (vérifiez vos spams)'
+    : 'Entrez le code reçu par SMS'
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -311,10 +311,10 @@ function LoginContent() {
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     placeholder="000000"
-                    maxLength={6}
+                    maxLength={8}
                     value={otp}
                     onChange={(e) =>
-                      setOtp(e.target.value.replace(/[^\d]/g, '').slice(0, 6))
+                      setOtp(e.target.value.replace(/[^\d]/g, '').slice(0, 8))
                     }
                     required
                     className="w-full h-14 pl-12 pr-4 rounded-xl border border-gray-300 bg-white text-center text-2xl font-mono tracking-[0.5em] text-gray-900 placeholder-gray-400 focus:border-[#1B4965] focus:ring-2 focus:ring-[#1B4965]/20 transition-colors"
@@ -327,7 +327,7 @@ function LoginContent() {
 
               <button
                 type="submit"
-                disabled={loading || otp.length !== 6}
+                disabled={loading || otp.length < 6}
                 className="flex items-center justify-center w-full h-14 rounded-xl bg-[#1B4965] text-white text-base font-semibold shadow-lg shadow-[#1B4965]/20 hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
               >
                 {loading ? (
